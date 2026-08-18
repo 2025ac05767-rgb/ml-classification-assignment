@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
+from pathlib import Path
 from sklearn.metrics import (
     accuracy_score,
     roc_auc_score,
@@ -19,17 +19,18 @@ st.write(
     "Upload the test CSV file and select a machine learning model "
     "to view predictions and evaluation metrics."
 )
-
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_DIR = BASE_DIR / "model"
 # Load models
 models = {
-    "Logistic Regression": joblib.load("model/logistic_regression.pkl"),
-    "Decision Tree": joblib.load("model/decision_tree.pkl"),
-    "kNN": joblib.load("model/knn.pkl"),
-    "Naive Bayes": joblib.load("model/naive_bayes.pkl"),
-    "Random Forest": joblib.load("model/random_forest.pkl")
+    "Logistic Regression": joblib.load(MODEL_DIR / "logistic_regression.pkl"),
+    "Decision Tree": joblib.load(MODEL_DIR / "decision_tree.pkl"),
+    "kNN": joblib.load(MODEL_DIR / "knn.pkl"),
+    "Naive Bayes": joblib.load(MODEL_DIR / "naive_bayes.pkl"),
+    "Random Forest": joblib.load(MODEL_DIR / "random_forest.pkl")
 }
 
-scaler = joblib.load("model/scaler.pkl")
+scaler = joblib.load(MODEL_DIR / "scaler.pkl")
 
 uploaded_file = st.file_uploader(
     "Upload test data CSV",
